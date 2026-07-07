@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imperial Web — Faqe interneti premium për bizneset shqiptare</title>
+<meta name="description" content="Imperial Web ndërton faqe prezantuese premium për bizneset shqiptare. Dizajn i nivelit ndërkombëtar, dorëzim brenda 2 ditësh, një çmim i vetëm: 399 €.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==================== TOKENS ==================== */
+:root{
+  --bg0:#031712;             /* near-black emerald   */
+  --bg1:#062018;             /* deep emerald         */
+  --bg2:#0B3226;             /* raised emerald       */
+  --bg3:#12442F;             /* glow emerald         */
+  --line:rgba(244,237,220,.10);
+  --line2:rgba(244,237,220,.18);
+  --cream:#F4EDDC;
+  --cream2:#E9DCBD;          /* champagne            */
+  --cream-70:rgba(244,237,220,.7);
+  --cream-45:rgba(244,237,220,.45);
+  --gold:#C6A15B;            /* antique brass — micro-dosed */
+  --gold-dim:rgba(198,161,91,.55);
+  --ink:#07231B;
+  --ink-70:rgba(7,35,27,.7);
+  --ink-45:rgba(7,35,27,.45);
+  --ink-line:rgba(7,35,27,.14);
+  --display:'Fraunces',Georgia,serif;
+  --body:'Instrument Sans',system-ui,sans-serif;
+  --max:1180px;
+  --pad:clamp(20px,5vw,52px);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--bg0);
+  color:var(--cream);
+  line-height:1.65;font-size:16px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--cream);color:var(--bg1)}
+body.lang-sq .en{display:none !important}
+body.lang-en .sq{display:none !important}
+
+/* ==================== GRAIN ==================== */
+.grain{
+  position:fixed;inset:-50%;z-index:90;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  opacity:.045;animation:grain 9s steps(6) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}
+  40%{transform:translate(3%,-4%)}60%{transform:translate(-3%,-2%)}80%{transform:translate(4%,2%)}
+}
+
+/* ==================== INTRO ==================== */
+#intro{
+  position:fixed;inset:0;z-index:200;background:var(--bg0);
+  display:flex;align-items:center;justify-content:center;
+  transition:clip-path 1s var(--ease) .1s;
+  clip-path:inset(0 0 0 0);
+}
+#intro.done{clip-path:inset(0 0 100% 0)}
+#intro svg{
+  width:clamp(130px,18vw,190px);
+  opacity:0;transform:scale(1.24);
+  transition:opacity .7s var(--ease),transform .7s var(--ease);
+}
+#intro.stamp svg{opacity:1;transform:scale(1)}
+#intro.hidden{display:none}
+
+/* ==================== PROGRESS ==================== */
+#progress{
+  position:fixed;top:0;left:0;height:2px;width:0;z-index:150;
+  background:linear-gradient(90deg,var(--gold),var(--cream2));
+}
+
+/* ==================== UTILITIES ==================== */
+.wrap{max-width:var(--max);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:14px;color:var(--cream-70);
+}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--gold);opacity:.8}
+.eyebrow.center{justify-content:center}
+.eyebrow.center::after{content:"";width:30px;height:1px;background:var(--gold);opacity:.8}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.06;letter-spacing:-.012em}
+em{font-style:italic;font-weight:300}
+
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.load-rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+body.loaded .load-rv{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .rv,.load-rv{opacity:1 !important;transform:none !important;transition:none !important}
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  #intro{display:none}
+  .grain{animation:none}
+}
+
+/* ==================== BUTTONS ==================== */
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:11px;
+  font-family:var(--body);font-weight:600;font-size:14px;letter-spacing:.03em;
+  text-decoration:none;cursor:pointer;border:1px solid transparent;
+  padding:17px 32px;border-radius:100px;overflow:hidden;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s;
+  will-change:transform;
+}
+.btn span,.btn svg{position:relative;z-index:2}
+.btn svg{transition:transform .35s var(--ease)}
+.btn:hover svg{transform:translateX(5px)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.btn-cream{background:var(--cream);color:var(--bg1)}
+.btn-cream::after{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.65) 50%,transparent 70%);
+  transform:translateX(-120%);transition:transform .8s var(--ease);
+}
+.btn-cream:hover{transform:translateY(-3px);box-shadow:0 20px 44px rgba(0,0,0,.45)}
+.btn-cream:hover::after{transform:translateX(120%)}
+.btn-ghost{background:transparent;color:var(--cream);border-color:var(--line2)}
+.btn-ghost:hover{border-color:var(--cream);transform:translateY(-3px)}
+.btn-emerald{background:var(--bg1);color:var(--cream)}
+.btn-emerald:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(7,35,27,.35)}
+
+/* ==================== NAV ==================== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .45s,box-shadow .45s,border-color .45s;
+  border-bottom:1px solid transparent;
+}
+.nav.solid{
+  background:rgba(3,23,18,.78);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-color:var(--line);
+}
+.nav-in{
+  max-width:var(--max);margin:0 auto;padding:0 var(--pad);height:74px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:var(--cream)}
+.brand-mark{width:36px;height:36px;flex:none}
+.brand-name{font-family:var(--display);font-size:16.5px;letter-spacing:.16em;font-weight:500;text-transform:uppercase;white-space:nowrap}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{
+  color:var(--cream);text-decoration:none;font-size:13px;font-weight:500;
+  letter-spacing:.05em;opacity:.7;transition:opacity .25s;position:relative;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;
+  background:var(--gold);transition:width .35s var(--ease);
+}
+.nav-links a:hover{opacity:1}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:14px}
+.lang{display:flex;border:1px solid var(--line2);border-radius:100px;overflow:hidden}
+.lang button{
+  background:none;border:none;color:var(--cream);opacity:.5;cursor:pointer;
+  font-family:var(--body);font-size:11.5px;font-weight:600;letter-spacing:.08em;
+  padding:8px 14px;transition:opacity .25s,background .25s;
+}
+.lang button.on{opacity:1;background:rgba(244,237,220,.09)}
+.lang button:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.nav .btn{padding:12px 24px;font-size:12.5px}
+@media (max-width:880px){
+  .nav-links{display:none}
+  .nav .btn{display:none}
+  .brand-name{font-size:14.5px}
+}
+
+/* ==================== HERO ==================== */
+.hero{
+  position:relative;min-height:100svh;display:flex;align-items:center;
+  overflow:hidden;padding:150px 0 110px;
+  background:
+    radial-gradient(1300px 850px at 76% 22%,var(--bg3) 0%,transparent 55%),
+    radial-gradient(900px 700px at 10% 90%,var(--bg2) 0%,transparent 55%),
+    linear-gradient(180deg,var(--bg1),var(--bg0));
+}
+.spotlight{
+  position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;
+  background:radial-gradient(640px circle at var(--mx,50%) var(--my,40%),rgba(244,237,220,.07),transparent 62%);
+  transition:opacity .8s;
+}
+.hero.lit .spotlight{opacity:1}
+.hero-guilloche{
+  position:absolute;top:50%;right:-15%;
+  width:min(64vw,940px);height:auto;opacity:.5;pointer-events:none;z-index:0;
+  will-change:transform;
+}
+.rot{animation:spin 90s linear infinite;transform-origin:400px 400px}
+.hero-in{position:relative;z-index:2;width:100%}
+.hero h1{
+  font-size:clamp(44px,7.4vw,96px);
+  margin:28px 0 30px;max-width:13ch;color:var(--cream);
+}
+.hero p{
+  font-size:clamp(16px,1.8vw,19.5px);color:var(--cream-70);
+  max-width:50ch;margin-bottom:46px;
+}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.hero-seal{
+  position:absolute;right:clamp(24px,6vw,90px);bottom:clamp(28px,6vh,64px);
+  width:clamp(108px,12vw,158px);height:auto;z-index:3;
+}
+.seal-spin{animation:spin 52s linear infinite;transform-origin:100px 100px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scroll-hint{
+  position:absolute;left:var(--pad);bottom:34px;z-index:3;
+  display:flex;align-items:center;gap:12px;
+  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--cream-45);
+}
+.scroll-hint::after{
+  content:"";width:1px;height:44px;background:linear-gradient(var(--gold),transparent);
+  animation:drip 2.2s var(--ease) infinite;transform-origin:top;
+}
+@keyframes drip{0%{transform:scaleY(0)}45%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+@media (max-width:880px){
+  .hero{padding:130px 0 170px}
+  .hero-guilloche{right:-52%;width:135vw;opacity:.3;top:36%}
+  .hero-seal{right:var(--pad);bottom:40px;width:98px}
+  .scroll-hint{display:none}
+}
+
+/* ==================== MARQUEE ==================== */
+.marquee{
+  background:var(--cream);color:var(--ink);overflow:hidden;padding:18px 0;
+  border-top:1px solid var(--ink-line);border-bottom:1px solid var(--ink-line);
+}
+.marquee-track{display:flex;width:max-content;animation:slide 30s linear infinite}
+.marquee span{
+  font-family:var(--display);font-size:14.5px;letter-spacing:.14em;
+  text-transform:uppercase;white-space:nowrap;padding:0 30px;
+  display:flex;align-items:center;gap:30px;
+}
+.marquee span::after{content:"✦";font-size:10px;color:var(--gold)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ==================== WHY ==================== */
+.why{background:var(--cream);color:var(--ink);padding:clamp(90px,13vw,160px) 0;position:relative}
+.why .eyebrow{color:var(--ink-70)}
+.why h2{font-size:clamp(34px,4.8vw,62px);max-width:17ch;margin:26px 0 24px}
+.why .lede{font-size:clamp(16px,1.75vw,19px);color:var(--ink-70);max-width:58ch;margin-bottom:72px}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--ink-line);border:1px solid var(--ink-line)}
+.pillar{
+  background:var(--cream);padding:42px 34px 48px;position:relative;overflow:hidden;
+  transition:background .5s var(--ease);
+}
+.pillar::before{
+  content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--gold);
+  transition:width .6s var(--ease);
+}
+.pillar:hover::before{width:100%}
+.pillar:hover{background:#EFE6D0}
+.pillar-num{
+  font-family:var(--display);font-style:italic;font-weight:300;
+  font-size:16px;color:var(--gold);display:block;margin-bottom:24px;
+}
+.pillar h3{font-size:24px;margin-bottom:15px}
+.pillar p{font-size:15px;color:var(--ink-70)}
+@media (max-width:880px){.pillars{grid-template-columns:1fr}}
+
+/* ==================== OFFER / BANKNOTE ==================== */
+.offer{
+  background:
+    radial-gradient(1000px 600px at 50% 0%,var(--bg2) 0%,transparent 60%),
+    var(--bg0);
+  padding:clamp(90px,13vw,170px) 0;position:relative;
+}
+.offer-head{text-align:center;margin-bottom:70px}
+.offer-head h2{font-size:clamp(34px,4.8vw,60px);margin-top:26px}
+.note-stage{perspective:1400px}
+.note{
+  position:relative;background:linear-gradient(150deg,#F7F1E1,#EFE5CC);color:var(--ink);
+  border-radius:16px;padding:clamp(32px,5vw,62px);
+  box-shadow:0 60px 130px rgba(0,0,0,.55),0 0 0 1px rgba(244,237,220,.06);
+  overflow:hidden;transform-style:preserve-3d;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+  will-change:transform;
+}
+.note::before{
+  content:"";position:absolute;inset:13px;border:1px solid var(--ink);
+  border-radius:9px;opacity:.34;pointer-events:none;
+}
+.note::after{
+  content:"";position:absolute;inset:17px;border:1px solid var(--gold);
+  border-radius:7px;opacity:.4;pointer-events:none;
+}
+.note-shine{
+  position:absolute;inset:0;pointer-events:none;z-index:3;
+  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);
+  transform:translateX(-130%);
+}
+.note.in .note-shine{transition:transform 1.6s var(--ease) .5s;transform:translateX(130%)}
+.note-corner{position:absolute;width:150px;height:150px;opacity:.13;pointer-events:none}
+.note-corner.tl{top:-30px;left:-30px}
+.note-corner.br{bottom:-30px;right:-30px;transform:rotate(180deg)}
+.note-top{
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:10.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-70);margin-bottom:38px;position:relative;z-index:2;
+}
+.note-grid{display:grid;grid-template-columns:auto 1fr;gap:clamp(32px,6vw,88px);position:relative;z-index:2;align-items:start}
+.price{
+  font-family:var(--display);font-weight:300;line-height:.88;
+  font-size:clamp(92px,13.5vw,178px);letter-spacing:-.03em;white-space:nowrap;
+}
+.price sup{font-size:.3em;font-weight:400;color:var(--gold);vertical-align:super;margin-left:8px}
+.price-words{
+  font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--ink-45);margin-top:18px;max-width:30ch;line-height:2;
+}
+.price-sub{font-family:var(--display);font-style:italic;font-size:18px;color:var(--ink-70);margin-top:24px}
+.includes{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:16px 32px}
+.includes li{display:flex;gap:13px;font-size:15px;align-items:flex-start;line-height:1.55}
+.includes li::before{content:"✦";font-size:11px;margin-top:5px;flex:none;color:var(--gold)}
+.note-cta{
+  position:relative;z-index:2;margin-top:50px;padding-top:38px;
+  border-top:1px solid var(--ink-line);
+  display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap;
+}
+.note-fine{font-size:13.5px;color:var(--ink-70);max-width:44ch}
+@media (max-width:940px){
+  .note-grid{grid-template-columns:1fr}
+  .includes{grid-template-columns:1fr}
+  .price{font-size:clamp(88px,23vw,126px)}
+}
+
+/* ==================== PROCESS ==================== */
+.process{background:var(--bg1);padding:clamp(90px,13vw,160px) 0;position:relative;overflow:hidden}
+.process::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line2),transparent);
+}
+.process h2{font-size:clamp(34px,4.8vw,60px);margin:26px 0 72px;max-width:16ch}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(30px,4vw,58px)}
+.step{border-top:1px solid var(--line);padding-top:30px;position:relative}
+.step::before{
+  content:"";position:absolute;top:-1px;left:0;height:1px;width:0;background:var(--gold);
+  transition:width 1.1s var(--ease) .2s;
+}
+.step.in::before{width:56px}
+.step-num{
+  font-family:var(--display);font-style:italic;font-weight:300;
+  font-size:16px;color:var(--gold);display:block;margin-bottom:22px;
+}
+.step h3{font-size:25px;margin-bottom:15px}
+.step p{font-size:15px;color:var(--cream-70)}
+@media (max-width:880px){.steps{grid-template-columns:1fr}}
+
+/* ==================== WORK ==================== */
+.work{background:var(--cream);color:var(--ink);padding:clamp(90px,13vw,160px) 0}
+.work .eyebrow{color:var(--ink-70)}
+.work h2{font-size:clamp(34px,4.8vw,60px);margin:26px 0 66px}
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{
+  border:1px solid var(--ink-line);border-radius:14px;overflow:hidden;
+  text-decoration:none;color:var(--ink);background:var(--cream);display:block;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+}
+.card:hover{transform:translateY(-8px);box-shadow:0 30px 64px rgba(7,35,27,.22)}
+.card-thumb{
+  aspect-ratio:4/3;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,var(--bg2),var(--bg0));
+}
+.card-thumb svg{
+  position:absolute;inset:0;width:100%;height:100%;opacity:.42;
+  transition:transform .8s var(--ease);
+}
+.card:hover .card-thumb svg{transform:scale(1.12) rotate(4deg)}
+.card-init{
+  font-family:var(--display);font-style:italic;font-weight:300;
+  font-size:68px;color:var(--cream);position:relative;z-index:2;
+  transition:transform .6s var(--ease);
+}
+.card:hover .card-init{transform:translateY(-4px)}
+.card-body{padding:24px 26px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.card-body h3{font-size:19.5px;margin-bottom:5px}
+.card-tag{font-size:10.5px;color:var(--ink-45);letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.card-arrow{flex:none;opacity:.45;transition:transform .4s var(--ease),opacity .4s}
+.card:hover .card-arrow{transform:translateX(5px);opacity:1}
+@media (max-width:880px){.work-grid{grid-template-columns:1fr}}
+
+/* ==================== FAQ ==================== */
+.faq{background:var(--cream);color:var(--ink);padding:0 0 clamp(90px,13vw,160px)}
+.faq h2{font-size:clamp(30px,4.2vw,48px);margin-bottom:48px}
+.faq-list{max-width:840px}
+.faq-item{border-top:1px solid var(--ink-line)}
+.faq-item:last-child{border-bottom:1px solid var(--ink-line)}
+.faq-q{
+  width:100%;background:none;border:none;cursor:pointer;text-align:left;
+  display:flex;justify-content:space-between;align-items:center;gap:22px;
+  padding:26px 4px;color:var(--ink);
+  font-family:var(--display);font-size:clamp(17px,2vw,21.5px);
+}
+.faq-q:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.faq-q .x{
+  flex:none;width:26px;height:26px;position:relative;opacity:.55;
+  transition:transform .45s var(--ease);
+}
+.faq-q .x::before,.faq-q .x::after{
+  content:"";position:absolute;background:var(--ink);top:50%;left:50%;
+}
+.faq-q .x::before{width:15px;height:1.5px;transform:translate(-50%,-50%)}
+.faq-q .x::after{width:1.5px;height:15px;transform:translate(-50%,-50%)}
+.faq-item.open .faq-q .x{transform:rotate(45deg)}
+.faq-a{
+  display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease);
+}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+.faq-a>div{overflow:hidden}
+.faq-a p{padding:0 4px 28px;font-size:15px;color:var(--ink-70);max-width:64ch}
+
+/* ==================== FINAL ==================== */
+.final{
+  background:
+    radial-gradient(1100px 700px at 50% 110%,var(--bg3) 0%,transparent 60%),
+    var(--bg0);
+  position:relative;overflow:hidden;
+  padding:clamp(110px,16vw,190px) 0;text-align:center;
+}
+.final-guilloche{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(130vw,1400px);opacity:.2;pointer-events:none;will-change:transform;
+}
+.final-in{position:relative;z-index:2}
+.final h2{font-size:clamp(38px,6.4vw,80px);max-width:15ch;margin:0 auto 28px}
+.final p{color:var(--cream-70);max-width:44ch;margin:0 auto 48px;font-size:clamp(15px,1.7vw,18.5px)}
+.final-mail{
+  display:inline-block;margin-top:56px;text-decoration:none;
+  font-family:var(--display);font-style:italic;font-weight:300;
+  font-size:clamp(19px,2.6vw,27px);color:var(--cream);
+  border-bottom:1px solid var(--gold-dim);padding-bottom:6px;
+  transition:border-color .35s,color .35s;
+}
+.final-mail:hover{border-color:var(--gold);color:#fff}
+
+/* ==================== FOOTER ==================== */
+footer{background:var(--bg0);border-top:1px solid var(--line);padding:32px 0}
+.foot-in{
+  max-width:var(--max);margin:0 auto;padding:0 var(--pad);
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  font-size:12.5px;color:var(--cream-45);
+}
+</style>
+</head>
+<body class="lang-sq">
+
+<div class="grain" aria-hidden="true"></div>
+<div id="progress" aria-hidden="true"></div>
+
+<!-- ================= INTRO ================= -->
+<div id="intro" aria-hidden="true">
+  <svg viewBox="0 0 200 200">
+    <circle cx="100" cy="100" r="96" stroke="#F4EDDC" stroke-width="1.2" fill="none" opacity=".9"/>
+    <circle cx="100" cy="100" r="90" stroke="#C6A15B" stroke-width=".6" fill="none" opacity=".7"/>
+    <circle cx="100" cy="100" r="56" stroke="#F4EDDC" stroke-width=".7" fill="none" opacity=".55"/>
+    <g>
+      <defs><path id="ic" d="M100,100 m-73,0 a73,73 0 1,1 146,0 a73,73 0 1,1 -146,0"/></defs>
+      <text font-family="Instrument Sans,system-ui,sans-serif" font-size="12.5" letter-spacing="3.4" fill="#F4EDDC" opacity=".9">
+        <textPath href="#ic">IMPERIAL WEB • SHKODËR • MMXXVI • PREMIUM DESIGN •&#160;</textPath>
+      </text>
+    </g>
+    <text x="100" y="116" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-style="italic" font-weight="300" font-size="46" fill="#F4EDDC">iw</text>
+  </svg>
+</div>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#krye" aria-label="Imperial Web">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="18.5" stroke="#F4EDDC" stroke-width="1.4"/>
+        <circle cx="20" cy="20" r="13.5" stroke="#C6A15B" stroke-width=".7" opacity=".75"/>
+        <text x="20" y="25.5" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-style="italic" font-size="14" fill="#F4EDDC">iw</text>
+      </svg>
+      <span class="brand-name">Imperial Web</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#pse"><span class="sq">Pse ne</span><span class="en">Why us</span></a></li>
+      <li><a href="#oferta"><span class="sq">Oferta</span><span class="en">The offer</span></a></li>
+      <li><a href="#procesi"><span class="sq">Procesi</span><span class="en">Process</span></a></li>
+      <li><a href="#punet"><span class="sq">Punët</span><span class="en">Work</span></a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Language">
+        <button id="btn-sq" class="on" onclick="setLang('sq')">SQ</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+      <a class="btn btn-cream" href="#kontakt"><span class="sq">Nis projektin</span><span class="en">Start your project</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="krye">
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <div class="spotlight" aria-hidden="true"></div>
+  <svg class="hero-guilloche" id="g1" viewBox="0 0 800 800" aria-hidden="true"></svg>
+  <div class="wrap hero-in">
+    <span class="eyebrow load-rv" style="transition-delay:.15s"><span class="sq">Studio dizajni &amp; zhvillimi — Shqipëri</span><span class="en">Design &amp; development studio — Albania</span></span>
+    <h1 class="load-rv" style="transition-delay:.3s">
+      <span class="sq">Faqe interneti që e bëjnë biznesin tuaj të duket ashtu siç <em>është</em>: serioz.</span>
+      <span class="en">Websites that make your business look the way it truly <em>is</em>: serious.</span>
+    </h1>
+    <p class="load-rv" style="transition-delay:.45s">
+      <span class="sq">Imperial Web ndërton faqe prezantuese premium për bizneset shqiptare — dizajn i nivelit ndërkombëtar, i përsosur në çdo ekran, i dorëzuar brenda 2 ditësh. Një çmim i vetëm: 399&nbsp;€.</span>
+      <span class="en">Imperial Web builds premium brand websites for Albanian businesses — international-grade design, flawless on every screen, delivered within 2 days. One single price: €399.</span>
+    </p>
+    <div class="hero-cta load-rv" style="transition-delay:.6s">
+      <a class="btn btn-cream" href="#kontakt">
+        <span class="sq">Nis projektin tënd</span><span class="en">Start your project</span>
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="#oferta"><span class="sq">Shiko çfarë përfshihet</span><span class="en">See what's included</span></a>
+    </div>
+  </div>
+  <svg class="hero-seal load-rv" style="transition-delay:.75s" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="96" stroke="#F4EDDC" stroke-width="1.2" fill="none" opacity=".85"/>
+    <circle cx="100" cy="100" r="90" stroke="#C6A15B" stroke-width=".6" fill="none" opacity=".65"/>
+    <circle cx="100" cy="100" r="56" stroke="#F4EDDC" stroke-width=".7" fill="none" opacity=".55"/>
+    <g class="seal-spin">
+      <defs><path id="sc" d="M100,100 m-73,0 a73,73 0 1,1 146,0 a73,73 0 1,1 -146,0"/></defs>
+      <text font-family="Instrument Sans,system-ui,sans-serif" font-size="12.5" letter-spacing="3.4" fill="#F4EDDC" opacity=".9">
+        <textPath href="#sc">IMPERIAL WEB • SHKODËR • MMXXVI • PREMIUM DESIGN •&#160;</textPath>
+      </text>
+    </g>
+    <text x="100" y="116" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-style="italic" font-weight="300" font-size="46" fill="#F4EDDC">iw</text>
+  </svg>
+  <div class="scroll-hint load-rv" style="transition-delay:.9s"><span class="sq">Zbulo</span><span class="en">Discover</span></div>
+</section>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="mq">
+    <span class="sq">Dizajn unik — jo shabllone</span><span class="sq">I përsosur në celular</span><span class="sq">Dorëzim brenda 2 ditësh</span><span class="sq">Pa kosto të fshehura</span><span class="sq">Faqja është 100% e juaja</span>
+    <span class="en">Unique design — never templates</span><span class="en">Flawless on mobile</span><span class="en">Delivered within 2 days</span><span class="en">No hidden costs</span><span class="en">You own it, 100%</span>
+  </div>
+</div>
+
+<!-- ================= WHY ================= -->
+<section class="why" id="pse">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="sq">Pse Imperial Web</span><span class="en">Why Imperial Web</span></span>
+    <h2 class="rv"><span class="sq">Klienti juaj i radhës ju gjykon nga faqja juaj.</span><span class="en">Your next customer judges you by your website.</span></h2>
+    <p class="lede rv">
+      <span class="sq">Sot, para se dikush të vizitojë lokalin tuaj, të telefonojë apo të porosisë — ju kërkon në internet. Nëse ju gjen vetëm me një profil në Instagram, ju ka krahasuar tashmë me konkurrentin që ka një faqe të vërtetë. Ne e ndryshojmë këtë për ju — njëherë e mirë.</span>
+      <span class="en">Today, before anyone visits your business, calls you, or places an order — they look you up online. If all they find is an Instagram profile, they have already compared you to the competitor with a real website. We change that for you — once and for all.</span>
+    </p>
+    <div class="pillars rv-group">
+      <div class="pillar rv">
+        <span class="pillar-num">i.</span>
+        <h3><span class="sq">Dizajn që bind</span><span class="en">Design that persuades</span></h3>
+        <p><span class="sq">Asnjë shabllon. Çdo faqe projektohet nga zero rreth markës suaj — me tipografi, ngjyra dhe strukturë që frymojnë besim që në sekondën e parë.</span><span class="en">No templates. Every site is designed from zero around your brand — with typography, color, and structure that breathe trust from the very first second.</span></p>
+      </div>
+      <div class="pillar rv">
+        <span class="pillar-num">ii.</span>
+        <h3><span class="sq">I përsosur në celular</span><span class="en">Flawless on mobile</span></h3>
+        <p><span class="sq">Mbi 80% e klientëve tuaj ju shohin nga telefoni. Ne e ndërtojmë faqen së pari për celular — çdo buton, çdo rresht, i menduar për gishtin, jo vetëm për mausin.</span><span class="en">Over 80% of your customers see you on a phone. We build mobile-first — every button, every line, designed for the thumb, not just the mouse.</span></p>
+      </div>
+      <div class="pillar rv">
+        <span class="pillar-num">iii.</span>
+        <h3><span class="sq">Dorëzim në 2 ditë</span><span class="en">Delivered in 2 days</span></h3>
+        <p><span class="sq">Ndërsa të tjerët flasin për javë e muaj, ne dorëzojmë brenda 2 ditësh pune — pa sakrifikuar asnjë detaj. Shpejtësia është pjesë e standardit tonë.</span><span class="en">While others talk in weeks and months, we deliver within 2 working days — without sacrificing a single detail. Speed is part of our standard.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OFFER ================= -->
+<section class="offer" id="oferta">
+  <div class="wrap">
+    <div class="offer-head rv">
+      <span class="eyebrow center"><span class="sq">Oferta</span><span class="en">The offer</span></span>
+      <h2><span class="sq">Gjithçka që ju duhet.<br>Një çmim i vetëm.</span><span class="en">Everything you need.<br>One single price.</span></h2>
+    </div>
+    <div class="note-stage">
+      <div class="note rv" id="note">
+        <div class="note-shine" aria-hidden="true"></div>
+        <svg class="note-corner tl" id="g2" viewBox="0 0 300 300" aria-hidden="true"></svg>
+        <svg class="note-corner br" id="g3" viewBox="0 0 300 300" aria-hidden="true"></svg>
+        <div class="note-top">
+          <span><span class="sq">Faqe prezantuese premium</span><span class="en">Premium brand website</span></span>
+          <span>Imperial Web — Seria A</span>
+        </div>
+        <div class="note-grid">
+          <div class="price-block">
+            <div class="price">399<sup>€</sup></div>
+            <div class="price-words"><span class="sq">Treqind e nëntëdhjetë e nëntë euro — pagesë e vetme</span><span class="en">Three hundred and ninety-nine euro — one-time payment</span></div>
+            <div class="price-sub"><span class="sq">Faqja juaj. Përgjithmonë.</span><span class="en">Your website. Forever.</span></div>
+          </div>
+          <ul class="includes rv-group">
+            <li class="rv"><span class="sq">Dizajn unik, i krijuar për markën tuaj — jo shabllon</span><span class="en">Unique design, created for your brand — never a template</span></li>
+            <li class="rv"><span class="sq">Deri në 5 seksione: Kreu, Rreth nesh, Shërbimet, Galeria, Kontakti</span><span class="en">Up to 5 sections: Home, About, Services, Gallery, Contact</span></li>
+            <li class="rv"><span class="sq">I përsosur në celular, tablet dhe desktop</span><span class="en">Flawless on mobile, tablet, and desktop</span></li>
+            <li class="rv"><span class="sq">I shpejtë si vetëtima — i ndërtuar për performancë</span><span class="en">Lightning fast — built for performance</span></li>
+            <li class="rv"><span class="sq">Lidhje direkte me WhatsApp për klientët tuaj</span><span class="en">Direct WhatsApp link for your customers</span></li>
+            <li class="rv"><span class="sq">Konfigurim i plotë i domain-it dhe hosting-ut</span><span class="en">Full domain and hosting setup</span></li>
+            <li class="rv"><span class="sq">2 raunde rishikimesh — deri të jeni plotësisht të kënaqur</span><span class="en">2 revision rounds — until you're fully satisfied</span></li>
+            <li class="rv"><span class="sq">Dorëzim brenda 2 ditëve pune</span><span class="en">Delivered within 2 working days</span></li>
+          </ul>
+        </div>
+        <div class="note-cta">
+          <p class="note-fine"><span class="sq">Pa abonime. Pa kosto të fshehura. Në fund, faqja është 100% pronë e juaja — me akses të plotë.</span><span class="en">No subscriptions. No hidden costs. In the end, the website is 100% yours — with full access.</span></p>
+          <a class="btn btn-emerald" href="#kontakt">
+            <span class="sq">Rezervo vendin tënd</span><span class="en">Reserve your spot</span>
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="process" id="procesi">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="sq">Procesi</span><span class="en">The process</span></span>
+    <h2 class="rv"><span class="sq">Nga biseda e parë, te faqja juaj live.</span><span class="en">From the first conversation to your site, live.</span></h2>
+    <div class="steps rv-group">
+      <div class="step rv">
+        <span class="step-num">i.</span>
+        <h3><span class="sq">Biseda</span><span class="en">The conversation</span></h3>
+        <p><span class="sq">Një telefonatë ose kafe 30-minutëshe. Na tregoni biznesin tuaj — ne ju tregojmë saktësisht çfarë do të ndërtojmë. Pa detyrime, pa presion.</span><span class="en">A 30-minute call or coffee. You tell us about your business — we tell you exactly what we'll build. No obligations, no pressure.</span></p>
+      </div>
+      <div class="step rv">
+        <span class="step-num">ii.</span>
+        <h3><span class="sq">Dizajni</span><span class="en">The design</span></h3>
+        <p><span class="sq">Ju prezantojmë faqen tuaj — të gjallë në ekran, jo skica në letër. Ju thoni çfarë të ndryshojmë, ne e përsosim.</span><span class="en">We present your website — live on screen, not sketches on paper. You tell us what to change, we perfect it.</span></p>
+      </div>
+      <div class="step rv">
+        <span class="step-num">iii.</span>
+        <h3><span class="sq">Publikimi</span><span class="en">The launch</span></h3>
+        <p><span class="sq">Brenda 2 ditësh, faqja juaj del online — e shpejtë, e sigurt dhe e përsosur në çdo ekran. Ju merrni gjithçka: aksesin, pronësinë dhe mbështetjen tonë.</span><span class="en">Within 2 days, your website goes live — fast, secure, and flawless on every screen. You receive everything: the access, the ownership, and our support.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WORK ================= -->
+<section class="work" id="punet">
+  <div class="wrap">
+    <span class="eyebrow rv"><span class="sq">Punët</span><span class="en">Work</span></span>
+    <h2 class="rv"><span class="sq">Çdo industri. I njëjti standard.</span><span class="en">Every industry. The same standard.</span></h2>
+    <div class="work-grid rv-group">
+      <a class="card rv" href="#kontakt">
+        <div class="card-thumb"><svg id="g4" viewBox="0 0 400 300" aria-hidden="true"></svg><span class="card-init">K</span></div>
+        <div class="card-body">
+          <div>
+            <h3><span class="sq">Konstruksion &amp; Çelik</span><span class="en">Construction &amp; Steel</span></h3>
+            <div class="card-tag"><span class="sq">Faqe prezantuese</span><span class="en">Brand website</span></div>
+          </div>
+          <svg class="card-arrow" width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+      <a class="card rv" href="#kontakt">
+        <div class="card-thumb"><svg id="g5" viewBox="0 0 400 300" aria-hidden="true"></svg><span class="card-init">H</span></div>
+        <div class="card-body">
+          <div>
+            <h3><span class="sq">Hoteleri &amp; Mikpritje</span><span class="en">Hospitality &amp; Tourism</span></h3>
+            <div class="card-tag"><span class="sq">Faqe prezantuese</span><span class="en">Brand website</span></div>
+          </div>
+          <svg class="card-arrow" width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+      <a class="card rv" href="#kontakt">
+        <div class="card-thumb"><svg id="g6" viewBox="0 0 400 300" aria-hidden="true"></svg><span class="card-init">S</span></div>
+        <div class="card-body">
+          <div>
+            <h3><span class="sq">Studio &amp; Shërbime</span><span class="en">Studios &amp; Services</span></h3>
+            <div class="card-tag"><span class="sq">Faqe prezantuese</span><span class="en">Brand website</span></div>
+          </div>
+          <svg class="card-arrow" width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="faq">
+  <div class="wrap">
+    <h2 class="rv"><span class="sq">Pyetjet që na bëjnë më shpesh</span><span class="en">Questions we hear most often</span></h2>
+    <div class="faq-list rv">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span><span class="sq">Sa kohë zgjat ndërtimi i faqes?</span><span class="en">How long does it take?</span></span><span class="x" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p><span class="sq">Vetëm 2 ditë pune nga momenti që kemi materialet tuaja (logo, tekste, foto). Nëse nuk i keni gati — ju ndihmojmë t'i përgatisim.</span><span class="en">Just 2 working days from the moment we have your materials (logo, text, photos). If you don't have them ready — we help you prepare them.</span></p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span><span class="sq">A ka kosto të tjera përveç 399 €?</span><span class="en">Are there any costs besides €399?</span></span><span class="x" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p><span class="sq">Jo nga ne. Të vetmet kosto vjetore janë domain-i dhe hosting-u (zakonisht 40–80 € në vit, që i paguani direkt te ofruesi). Ne i konfigurojmë për ju — pa asnjë pagesë shtesë.</span><span class="en">Not from us. The only yearly costs are the domain and hosting (usually €40–80 per year, paid directly to the provider). We set them up for you — at no extra charge.</span></p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span><span class="sq">Po nëse më duhet diçka më shumë se një faqe prezantuese?</span><span class="en">What if I need more than a brand website?</span></span><span class="x" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p><span class="sq">Për dyqane online, sisteme rezervimesh apo platforma të personalizuara — na shkruani. E ndërtojmë ofertën sipas nevojës suaj.</span><span class="en">For online stores, booking systems, or custom platforms — write to us. We'll build an offer around your exact needs.</span></p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span><span class="sq">Kush e mban faqen pas dorëzimit?</span><span class="en">Who owns the website after delivery?</span></span><span class="x" aria-hidden="true"></span></button>
+        <div class="faq-a"><div><p><span class="sq">Ju. Faqja është 100% pronë e juaja, me akses të plotë. Dhe nëse doni ndryshime në të ardhmen — jemi gjithmonë vetëm një mesazh larg.</span><span class="en">You do. The website is 100% your property, with full access. And if you ever want changes in the future — we're always just one message away.</span></p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section class="final" id="kontakt">
+  <svg class="final-guilloche" id="g7" viewBox="0 0 800 800" aria-hidden="true"></svg>
+  <div class="wrap final-in">
+    <h2 class="rv"><span class="sq">Vendi juaj në internet <em>ju pret</em>.</span><span class="en">Your place on the internet <em>is waiting</em>.</span></h2>
+    <p class="rv"><span class="sq">Na shkruani sot — dhe brenda 2 ditësh, biznesi juaj do të ketë faqen që meriton.</span><span class="en">Write to us today — and within 2 days, your business will have the website it deserves.</span></p>
+    <div class="rv">
+      <a class="btn btn-cream" href="mailto:imperial4web@gmail.com">
+        <span class="sq">Nis projektin — 399 €</span><span class="en">Start your project — €399</span>
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <a class="final-mail rv" href="mailto:imperial4web@gmail.com">imperial4web@gmail.com</a>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="foot-in">
+    <span>© 2026 Imperial Web — Shkodër, <span class="sq">Shqipëri</span><span class="en">Albania</span></span>
+    <span><span class="sq">Dizajnuar dhe ndërtuar me kujdes.</span><span class="en">Designed and built with care.</span></span>
+  </div>
+</footer>
+
+<script>
+/* ---------- Language ---------- */
+function setLang(l){
+  document.body.classList.remove('lang-sq','lang-en');
+  document.body.classList.add('lang-'+l);
+  document.documentElement.lang = l;
+  document.title = l==='sq'
+    ? 'Imperial Web — Faqe interneti premium për bizneset shqiptare'
+    : 'Imperial Web — Premium websites for Albanian businesses';
+  document.getElementById('btn-sq').classList.toggle('on', l==='sq');
+  document.getElementById('btn-en').classList.toggle('on', l==='en');
+  try{ localStorage.setItem('iw-lang', l); }catch(e){}
+}
+try{ if(localStorage.getItem('iw-lang')==='en') setLang('en'); }catch(e){}
+
+/* ---------- Guilloche generator ---------- */
+function guilloche(id,cx,cy,rx,ry,n,color,op,sw,rotate){
+  var svg=document.getElementById(id); if(!svg) return;
+  var ns='http://www.w3.org/2000/svg';
+  var g=document.createElementNS(ns,'g');
+  if(rotate) g.setAttribute('class','rot');
+  for(var i=0;i<n;i++){
+    var e=document.createElementNS(ns,'ellipse');
+    e.setAttribute('cx',cx);e.setAttribute('cy',cy);
+    e.setAttribute('rx',rx);e.setAttribute('ry',ry);
+    e.setAttribute('fill','none');e.setAttribute('stroke',color);
+    e.setAttribute('stroke-width',sw);e.setAttribute('opacity',op);
+    e.setAttribute('transform','rotate('+(i*180/n)+' '+cx+' '+cy+')');
+    g.appendChild(e);
+  }
+  svg.appendChild(g);
+}
+guilloche('g1',400,400,360,128,32,'#F4EDDC',0.15,0.8,true);
+guilloche('g7',400,400,360,128,32,'#F4EDDC',0.14,0.8,true);
+guilloche('g2',150,150,132,46,22,'#07231B',0.9,0.9,false);
+guilloche('g3',150,150,132,46,22,'#07231B',0.9,0.9,false);
+guilloche('g4',200,150,172,60,18,'#F4EDDC',0.5,0.8,false);
+guilloche('g5',200,150,172,60,18,'#F4EDDC',0.5,0.8,false);
+guilloche('g6',200,150,172,60,18,'#F4EDDC',0.5,0.8,false);
+
+/* ---------- Motion preferences ---------- */
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var fine=window.matchMedia('(pointer: fine)').matches;
+
+/* ---------- Intro ---------- */
+var intro=document.getElementById('intro');
+var seenIntro=false;
+try{ seenIntro=sessionStorage.getItem('iw-intro')==='1'; }catch(e){}
+function finishIntro(){
+  intro.classList.add('done');
+  document.body.classList.add('loaded');
+  setTimeout(function(){ intro.classList.add('hidden'); },1200);
+  try{ sessionStorage.setItem('iw-intro','1'); }catch(e){}
+}
+if(reduce||seenIntro){
+  intro.classList.add('hidden');
+  document.body.classList.add('loaded');
+}else{
+  requestAnimationFrame(function(){ intro.classList.add('stamp'); });
+  setTimeout(finishIntro,1400);
+}
+
+/* ---------- Staggered scroll reveals ---------- */
+document.querySelectorAll('.rv-group').forEach(function(gr){
+  gr.querySelectorAll('.rv').forEach(function(el,i){
+    el.style.transitionDelay=(i*0.1)+'s';
+  });
+});
+if(!reduce&&'IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(ents){
+    ents.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  },{threshold:0.12,rootMargin:'0px 0px -50px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+}else{
+  document.querySelectorAll('.rv').forEach(function(el){ el.classList.add('in'); });
+}
+
+/* ---------- Scroll: nav, progress, parallax ---------- */
+var nav=document.getElementById('nav');
+var bar=document.getElementById('progress');
+var gHero=document.getElementById('g1');
+var gFinal=document.getElementById('g7');
+var finalSec=document.getElementById('kontakt');
+var ticking=false;
+function onScroll(){
+  if(ticking) return; ticking=true;
+  requestAnimationFrame(function(){
+    var y=window.scrollY;
+    nav.classList.toggle('solid',y>30);
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(h>0?(y/h*100):0)+'%';
+    if(!reduce){
+      gHero.style.transform='translateY('+(y*0.22)+'px)';
+      var r=finalSec.getBoundingClientRect();
+      var p=(window.innerHeight-r.top)/(window.innerHeight+r.height);
+      if(p>0&&p<1) gFinal.style.transform='translate(-50%,-50%) translateY('+((p-0.5)*-90)+'px)';
+    }
+    ticking=false;
+  });
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+/* ---------- Hero spotlight ---------- */
+var hero=document.getElementById('hero');
+if(fine&&!reduce){
+  hero.addEventListener('pointermove',function(ev){
+    var r=hero.getBoundingClientRect();
+    hero.style.setProperty('--mx',((ev.clientX-r.left)/r.width*100)+'%');
+    hero.style.setProperty('--my',((ev.clientY-r.top)/r.height*100)+'%');
+    hero.classList.add('lit');
+  });
+  hero.addEventListener('pointerleave',function(){ hero.classList.remove('lit'); });
+}
+
+/* ---------- Banknote tilt ---------- */
+var note=document.getElementById('note');
+if(fine&&!reduce){
+  note.addEventListener('pointermove',function(ev){
+    var r=note.getBoundingClientRect();
+    var px=(ev.clientX-r.left)/r.width-0.5;
+    var py=(ev.clientY-r.top)/r.height-0.5;
+    note.style.transform='rotateX('+(py*-4)+'deg) rotateY('+(px*5)+'deg)';
+  });
+  note.addEventListener('pointerleave',function(){ note.style.transform=''; });
+}
+
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click',function(){
+    var item=q.parentElement;
+    var open=item.classList.toggle('open');
+    q.setAttribute('aria-expanded',open?'true':'false');
+  });
+});
+
+/* ---------- Marquee loop ---------- */
+var mq=document.getElementById('mq');
+if(mq){ mq.innerHTML+=mq.innerHTML; }
+</script>
+</body>
+</html>
